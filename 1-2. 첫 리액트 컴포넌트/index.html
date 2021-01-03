@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    </head>
+    <body>
+        <div id="root"></div> <!--  결과: <div id="root"><button>Like</button></div> -->
+        <script>
+            const e = React.createElement; //html tag를 만든다.
+
+            class LikeButton extends React.Component { //React에서 Component를 상속받는다.
+                constructor(props) {
+                    super(props);
+                }
+
+                render() { //화면에 표시될 영역
+                    return e('button', null, 'Like'); // <button>Like</button>
+                }
+            }
+        </script>
+        <script>
+            //React를 사용해서 만든 부분을 화면에다 실제로 반영해줌(ReactDOM)
+            ReactDOM.render(e(LikeButton), document.querySelector('#root'));
+        </script>
+    </body>
+</html>
