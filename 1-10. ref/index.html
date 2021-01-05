@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>구구단</title>
+        <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/babel">
+            class GuGuDan extends React.Component { //React에서 Component를 상속받는다.
+                state = {
+                    first: Math.ceil(Math.random() * 9),
+                    second: Math.ceil(Math.random() * 9),
+                    value: '',
+                    result: ''
+                };
+
+                onSubmit = (e) => {
+                    e.preventDefault();
+                    if(parseInt(this.state.value) === this.state.first * this.state.second) {
+                        this.setState((prevState) => {
+                            return {
+                                result: '정답: ' + prevState.value,
+                                first: Math.ceil(Math.random() * 9),
+                                second: Math.ceil(Math.random() * 9),
+                                value: '',
+                            }
+                        });
+                        this.input.focus();
+                    } else {
+                        this.setState({
+                            result: '땡',
+                            value: '',
+                        });
+                        this.input.focus();
+                    }
+                };
+
+                onChange = (e) => {
+                    this.setState({ value: e.target.value });
+                }
+
+                input;
+
+                onRefInput = (c) => { this.input = c; };
+
+                //컨텐츠
+                render() { //this.setState 호출될 때마다 render()가 실행된다.
+                           // 따라서 render에서 함수 실행부를 클래스에 정의해두면 새로운 함수가 매번 생성되지 않고 클래스에 정의된 함수를 실행한다.
+                    return (
+                        <React.Fragment>
+                            <div>{this.state.first} 곱하기 {this.state.second}는?</div>
+                            <form onSubmit={this.onSubmit}>
+                                <input ref={this.onRefInput} type="number" value={this.state.value} onChange={this.onChange}/>                                
+                                <button type="submit">입력!</button>
+                            </form>
+                            <div>{this.state.result}</div>
+                        </React.Fragment>
+                        );
+                    }
+                }
+        </script>
+        <script type="text/babel">
+            //React를 사용해서 만든 부분을 화면에다 실제로 반영해줌(ReactDOM)
+            ReactDOM.render(<GuGuDan />, document.querySelector('#root'));
+        </script>
+    </body>
+</html>
